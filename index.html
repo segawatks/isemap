@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>鳥羽 家族旅のしおり</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a printed-shiori column — day bands with a timeline spine, maps drawn from real coordinates */
+:root{
+  --bg:#f3f6f6; --paper:#ffffff; --ink:#15302f; --muted:#5b7270;
+  --sea:#1d6f73; --sea-soft:#d7ebea; --coral:#d9644a; --coral-soft:#fbe4dd;
+  --line:#c9d8d7; --water:#e3eff0;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a1b; --paper:#162526; --ink:#e2eeed; --muted:#93aaa8;
+  --sea:#5fb8b9; --sea-soft:#1d3a3b; --coral:#f08a70; --coral-soft:#3a2420;
+  --line:#2b4243; --water:#132f33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a1b; --paper:#162526; --ink:#e2eeed; --muted:#93aaa8;
+  --sea:#5fb8b9; --sea-soft:#1d3a3b; --coral:#f08a70; --coral-soft:#3a2420;
+  --line:#2b4243; --water:#132f33; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+a{color:var(--sea)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.hero{padding-block:40px 8px;display:grid;gap:10px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--sea)}
+.hero h1{font-size:clamp(32px,7vw,48px);font-weight:900;line-height:1.2}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--sea-soft);color:var(--sea);font-weight:700}
+.chip.coral{background:var(--coral-soft);color:var(--coral)}
+nav.days{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;
+  display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--line)}
+nav.days a{flex:0 0 auto;text-decoration:none;font-family:var(--display);font-weight:700;font-size:14px;
+  padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--ink);background:var(--paper)}
+nav.days a:hover{border-color:var(--sea);color:var(--sea)}
+section{display:grid;gap:14px;scroll-margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.daynum{font-family:var(--mono);font-size:13px;color:var(--paper);background:var(--sea);padding:2px 9px;border-radius:6px}
+.sec-head h2{font-size:24px}
+.sec-head .sub{color:var(--muted);font-size:13px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.map{background:var(--water);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.map svg{display:block;width:100%;height:auto}
+.map .cap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 14px;font-size:12px;color:var(--muted);background:var(--paper);border-top:1px solid var(--line)}
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid}
+.tl li{display:grid;grid-template-columns:62px 1fr;gap:14px;position:relative;padding-bottom:18px}
+.tl li::before{content:"";position:absolute;left:73px;top:10px;bottom:0;width:2px;background:var(--line)}
+.tl li:last-child::before{display:none}
+.tl time{font-family:var(--mono);font-size:13px;color:var(--sea);text-align:right;padding-top:2px;font-variant-numeric:tabular-nums}
+.tl .body{padding-left:18px;position:relative;min-width:0}
+.tl .body::before{content:"";position:absolute;left:-6px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--sea)}
+.tl li.key .body::before{background:var(--coral);border-color:var(--coral)}
+.tl h3{font-size:17px;line-height:1.4}
+.tl p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;font-size:13px}
+.links a{text-decoration:none;font-weight:700}
+.links a::after{content:" ↗";font-weight:400}
+.note{border-radius:10px;padding:12px 14px;background:var(--coral-soft);font-size:14px}
+.note strong{color:var(--coral)}
+.note.sea{background:var(--sea-soft)}
+.note.sea strong{color:var(--sea)}
+ul.tips{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:14px}
+/* table */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;color:var(--muted);font-weight:500}
+td.t{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--sea)}
+tr.seal td{background:var(--coral-soft);font-weight:700}
+tr.seal td.t{color:var(--coral)}
+.pay{font-size:11px;color:var(--coral);border:1px solid var(--coral);border-radius:4px;padding:0 4px;margin-left:4px}
+/* variants */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start;min-width:0}
+.card .tag{font-family:var(--mono);font-size:12px;color:var(--coral)}
+.card h3{font-size:17px}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.check li{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.check input{margin-top:5px;accent-color:var(--sea);width:16px;height:16px;flex:0 0 auto}
+footer{color:var(--muted);font-size:12px;text-align:center}
+@media (max-width:480px){.tl li{grid-template-columns:48px 1fr;gap:10px}.tl li::before{left:55px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.map iframe{display:block;width:100%;aspect-ratio:16/10;border:0;max-width:100%}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">2026.11.01 SUN — 11.03 TUE · 2泊3日</div>
+    <h1>鳥羽 家族旅のしおり</h1>
+    <p>須磨から車で伊勢志摩へ。宿は鳥羽湾に面した「湯めぐり海百景 鳥羽シーサイドホテル」。いちばんの目的は、伊勢シーパラダイスのアザラシ。</p>
+    <div class="chips"><span class="chip">車で移動</span><span class="chip">3日間とも晴れ予報</span><span class="chip coral">アザラシ最優先</span></div>
+  </header>
+
+  <nav class="days" aria-label="日付">
+    <a href="#day1">11/1 日</a><a href="#day2">11/2 月</a><a href="#day3">11/3 祝</a><a href="#seapara">シーパラ時刻表</a><a href="#prep">準備</a>
+  </nav>
+
+  <section id="day1">
+    <div class="sec-head"><span class="daynum">DAY 1</span><h2>ドライブ → 鳥羽水族館</h2><span class="sub">11/1（日）</span></div>
+    <div class="map"><iframe src="https://maps.google.com/maps?saddr=須磨駅&daddr=VISON+多気町+to:鳥羽水族館&hl=ja&output=embed" title="1日目のルート" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+    <div class="note"><strong>分かれ目は9:00。</strong>9時までに出られたらVISONで昼。過ぎたら鈴鹿PAで簡単に済ませ、14時ごろ水族館へ。</div>
+    <ol class="tl">
+      <li><time>8:30</time><div class="body"><h3>須磨を出発</h3><p>第二神明・阪神高速から新名神へ。</p></div></li>
+      <li><time>10:00</time><div class="body"><h3>土山SA か 鈴鹿PAで休憩</h3><p>トイレとおやつ。鈴鹿PAはF1マシンの展示あり。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=土山サービスエリア" target="_blank" rel="noopener">土山SAの地図</a><a href="https://www.google.com/maps/search/?api=1&query=鈴鹿パーキングエリア+PIT+SUZUKA" target="_blank" rel="noopener">鈴鹿PAの地図</a></div></div></li>
+      <li class="key"><time>11:30</time><div class="body"><h3>VISONで昼ごはん</h3><p>P1かP2に停めてマルシェで食べ歩き。子どもは「新兵衛屋」のたこ棒やトリカラ天。12:30に車で木育エリアへ移り、kiondのキノパーク（30分600円）で体を動かす。施設内で2000円使えば駐車3時間無料、レシートは捨てない。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=VISON+ヴィソン+多気町" target="_blank" rel="noopener">地図</a><a href="https://vison.jp/" target="_blank" rel="noopener">公式サイト（写真）</a><a href="https://www.kankomie.or.jp/report/1591" target="_blank" rel="noopener">子連れモデルコース</a></div></div></li>
+      <li><time>13:15</time><div class="body"><h3>伊勢道で鳥羽へ直行</h3><p>1日は伊勢神宮の朔日参りで伊勢市内が混む。市内には寄らない。</p></div></li>
+      <li class="key"><time>14:00</time><div class="body"><h3>鳥羽水族館</h3><p>着いたら真っ先にラッコの列へ（1分観覧、並び直し可）。お食事タイムは16:10。最終入館16:00、ラッコ列の締め切り16:30。「極地の海」ではバイカルアザラシも。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=鳥羽水族館" target="_blank" rel="noopener">地図</a><a href="https://aquarium.co.jp/" target="_blank" rel="noopener">公式サイト（写真）</a></div></div></li>
+      <li><time>17:00</time><div class="body"><h3>ホテルにチェックイン</h3><p>貸切露天風呂（40分3300円）はフロントですぐに枠を押さえる。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=鳥羽シーサイドホテル" target="_blank" rel="noopener">地図</a></div></div></li>
+    </ol>
+  </section>
+
+  <section id="day2">
+    <div class="sec-head"><span class="daynum">DAY 2</span><h2>アザラシ → イルカ島</h2><span class="sub">11/2（月）唯一の平日</span></div>
+    <div class="map"><iframe src="https://maps.google.com/maps?saddr=鳥羽シーサイドホテル&daddr=伊勢シーパラダイス+to:鳥羽マリンターミナル&hl=ja&output=embed" title="2日目のルート" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+    <ol class="tl">
+      <li><time>9:00</time><div class="body"><h3>ホテルを出発</h3><p>二見までは伊勢二見鳥羽ラインで約15分。</p></div></li>
+      <li class="key"><time>9:30</time><div class="body"><h3>伊勢シーパラダイス</h3><p>開館と同時に入館。10:40と13:35のゴマちゃんタッチに両方参加。記念写真用のスマホはすぐ渡せるように。詳しい流れは下の時刻表。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=伊勢シーパラダイス" target="_blank" rel="noopener">地図</a><a href="https://ise-seaparadise.com/" target="_blank" rel="noopener">公式サイト（写真）</a><a href="https://ise-seaparadise.com/event-schedule/" target="_blank" rel="noopener">当日のイベント</a></div></div></li>
+      <li><time>12:40</time><div class="body"><h3>お昼は隣の「めおと横丁」</h3><p>ドクターフィッシュの無料体験あり。夫婦岩も歩いてすぐ。</p></div></li>
+      <li class="key"><time>14:00</time><div class="body"><h3>鳥羽マリンターミナルからイルカ島へ</h3><p>約50分の湾めぐり。イルカにおやつ、イルカタッチ、カワウソ握手。アシカショーへはリフト（往復600円）が楽。最終便15:30。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=鳥羽マリンターミナル" target="_blank" rel="noopener">乗り場の地図</a><a href="https://iko-yo.net/facilities/20745" target="_blank" rel="noopener">イルカ島の紹介（写真）</a></div></div></li>
+      <li><time>夕方</time><div class="body"><h3>ホテルで温泉</h3><p>夜にもう一度、明日の予定を決める。</p></div></li>
+    </ol>
+  </section>
+
+  <section id="day3">
+    <div class="sec-head"><span class="daynum">DAY 3</span><h2>選べる帰り道</h2><span class="sub">11/3（祝）昼すぎに帰路</span></div>
+    <div class="map"><iframe src="https://maps.google.com/maps?q=鳥羽水族館&z=12&hl=ja&output=embed" title="鳥羽周辺の地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+    <div class="grid">
+      <div class="card"><span class="tag">A · アザラシもう一度</span><h3>伊勢シーパラダイス</h3><p>見逃したイベントや2回目のゴマちゃんタッチ。帰る方向なので遠回りなし。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=伊勢シーパラダイス" target="_blank" rel="noopener">地図</a></div></div>
+      <div class="card"><span class="tag">B · ホテルの近く</span><h3>ミキモト真珠島</h3><p>白い磯着の海女の潜水実演（約1時間ごと）。1〜1.5時間。大人1650円・小中820円。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=ミキモト真珠島" target="_blank" rel="noopener">地図</a><a href="https://www.mikimoto-pearl-island.jp/" target="_blank" rel="noopener">公式（写真）</a></div></div>
+      <div class="card"><span class="tag">C · 帰り道で思いきり遊ぶ</span><h3>おやつタウン</h3><p>久居ICから5分。高さ9mの屋内立体遊具。お昼もここで。事前予約推奨。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=おやつタウン+津市" target="_blank" rel="noopener">地図</a><a href="https://www.kankomie.or.jp/spot/detail_23498.html" target="_blank" rel="noopener">紹介（写真）</a></div></div>
+      <div class="card"><span class="tag">D · 大人も満足</span><h3>伊勢神宮 内宮・おかげ横丁</h3><p>祝日は8時台に着くこと。参拝のあと赤福や伊勢うどんを食べ歩き。</p>
+        <div class="links"><a href="https://www.google.com/maps/search/?api=1&query=伊勢神宮+内宮" target="_blank" rel="noopener">地図</a></div></div>
+    </div>
+    <div class="note sea"><strong>おすすめの組み合わせ：</strong>A＋C（朝アザラシ→昼おやつタウン）か B＋C。帰りは安濃SA（上り）で伊勢津からあげ（たまり味480円）。</div>
+  </section>
+
+  <section id="seapara">
+    <div class="sec-head"><h2>シーパラ時刻表</h2><span class="sub">11/2（月）・色付きがアザラシ</span></div>
+    <div class="panel tbl">
+      <table>
+        <thead><tr><th>時刻</th><th>イベント</th><th>場所</th></tr></thead>
+        <tbody id="sched"></tbody>
+      </table>
+    </div>
+    <ul class="tips">
+      <li>12:20はセイウチ・カワウソ（広場）とチンアナゴ（魚館）が重なる。チンアナゴの15:00回はイルカ島と重なるので、どちらか一方。</li>
+      <li>いつでも：モルモットタッチ（不定期）、デジタルアート（毎時00・30分、海底ごろりんホール）。</li>
+      <li>前日の夜に公式のイベントスケジュールで時間の変更がないか確認。</li>
+    </ul>
+  </section>
+
+  <section id="prep">
+    <div class="sec-head"><h2>準備チェック</h2></div>
+    <ul class="check panel">
+      <li><input type="checkbox" id="c1"><label for="c1">シーパラのWebチケットを買う（当日の窓口に並ばない）</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2">3日目にCを選ぶなら、おやつタウンの運営カレンダーと料金を見て予約</label></li>
+      <li><input type="checkbox" id="c3"><label for="c3">ミキモト真珠島はアソビュー等の前売り電子チケットが便利（Bを選ぶ場合）</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4">10/31夜に最新の天気予報を確認</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5">11/1朝に鳥羽水族館のラッコお食事タイムを確認</label></li>
+      <li><input type="checkbox" id="c6"><label for="c6">11/1夜にシーパラのイベントスケジュールを確認</label></li>
+      <li><input type="checkbox" id="c7"><label for="c7">チェックイン後すぐ、貸切露天風呂の枠を押さえる</label></li>
+    </ul>
+  </section>
+
+  <footer>地図は Google マップ。各スポットの「地図」リンクからアプリで開けます。</footer>
+</div>
+
+<script>
+(function(){
+  // schedule
+  var rows=[
+    ["10:10","トドお食事タイム","トドプール"],["10:30","手乗りトビハゼ","魚館",1],
+    ["10:40","ゴマちゃんタッチ","ゼロ距離広場",0,1],["11:15","アシカお食事タイム","ゼロ距離ステージ"],
+    ["11:40","タツノオトシゴ巻き付き","魚館",1],["12:20","セイウチお食事タイム","ゼロ距離広場"],
+    ["12:20","ツメナシカワウソと握手","ゼロ距離広場"],["12:20","チンアナゴ謎解きエサやり","魚館",1],
+    ["13:00","タツノオトシゴ巻き付き","魚館",1],["13:35","ゴマちゃんタッチ","ゼロ距離広場",0,1],
+    ["14:00","トドお食事タイム","トドプール"],["14:10","手乗りトビハゼ","魚館",1],
+    ["14:30","アシカお食事タイム","ゼロ距離ステージ"],["15:00","チンアナゴ謎解きエサやり","魚館",1],
+    ["15:10","セイウチお食事タイム","ゼロ距離広場"],["15:10","ツメナシカワウソと握手","ゼロ距離広場"],
+    ["16:00","タツノオトシゴ巻き付き","魚館",1]];
+  var tb=document.getElementById("sched");
+  rows.forEach(function(r){
+    var tr=document.createElement("tr"); if(r[4]) tr.className="seal";
+    tr.innerHTML='<td class="t">'+r[0]+'</td><td>'+r[1]+(r[3]?'<span class="pay">有料</span>':'')+'</td><td>'+r[2]+'</td>';
+    tb.appendChild(tr);
+  });
+
+  // checklist memory (per viewer)
+  document.querySelectorAll(".check input").forEach(function(cb){
+    try{ if(localStorage.getItem("toba-"+cb.id)==="1") cb.checked=true; }catch(e){}
+    cb.addEventListener("change",function(){ try{ localStorage.setItem("toba-"+cb.id, cb.checked?"1":"0"); }catch(e){} });
+  });
+
+})();
+</script>
+
+</body>
+</html>
